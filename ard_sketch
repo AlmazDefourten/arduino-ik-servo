@@ -1,1 +1,20 @@
+#include <Servo.h>
 
+Servo servo1;
+int num;
+void setup() {
+  Serial.begin(9600);
+  servo1.attach(4);
+  
+
+}
+
+void loop() {
+  while (num != 360)
+  {
+    servo1.write(num);
+    num++;
+    delay(20);
+  }
+
+}
