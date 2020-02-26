@@ -1,20 +1,46 @@
+#include "IRremote.h"
 #include <Servo.h>
-
 Servo servo1;
-int num;
+IRrecv irrecv(2);
+int num = 0;
+decode_results results;
+
 void setup() {
-  Serial.begin(9600);
   servo1.attach(4);
-  
+   Serial.begin(9600); // выставляем скорость COM порта
+  irrecv.enableIRIn();
 
 }
 
 void loop() {
-  while (num != 360)
-  {
-    servo1.write(num);
-    num++;
-    delay(20);
-  }
+ 
+    if ( irrecv.decode( &results )) { // если данные пришли
+      Serial.println(results.value);
+    if (results.value == 16753245) //null
+
+    {
+      servo1.write(90);
+      num = 90;
+    }
+
+    if (results.value == 16748655) //vpravo
+    {
+     
+      servo1.write(num - 30);
+      num = num - 30;
+    }
+
+    if (results.value == 16769055) // vlevo
+    {
+     
+      servo1.write(num + 30);
+      num = num + 30;
+    }
+
+
+         irrecv.resume();
 
 }
+    }
+    
+ 
